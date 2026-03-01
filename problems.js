@@ -57,3 +57,26 @@ var convert = function(s, numRows) {
 
     return rows.join("");
 };
+//function reverse(x) {
+    // Define the 32-bit integer boundaries
+    const MIN = -Math.pow(2, 31);      // -2147483648
+    const MAX = Math.pow(2, 31) - 1;    // 2147483647
+    
+    // Store the sign and work with absolute value
+    const sign = Math.sign(x);
+    const absoluteValue = Math.abs(x);
+    
+    // Convert to string, reverse, and convert back to number
+    const reversedString = absoluteValue.toString().split('').reverse().join('');
+    const reversedNumber = parseInt(reversedString, 10);
+    
+    // Apply the original sign to the reversed number
+    const result = sign * reversedNumber;
+    
+    // Check if result is within 32-bit integer range
+    if (result < MIN || result > MAX) {
+        return 0;
+    }
+    
+    return result;
+    
