@@ -79,4 +79,52 @@ var convert = function(s, numRows) {
     }
     
     return result;
+    //
+    function isMatch(s, p) {
+    // Create DP table with (s.length + 1) x (p.length + 1)
+    const dp = Array(s.length + 1).fill().map(
+        () => Array(p.length + 1).fill(false)
+    );
     
+    // Empty string matches empty pattern
+    dp[0][0] = true;
+    
+    // Handle patterns like a*, a*b*, a*b*c* that can match empty string
+    for (let j = 1; j <= p.length; j++) {
+        if (p[j - 1] === '*') {
+            // If current char is '*', look two positions back in pattern
+            dp[0][j] = dp[0][j - 2];
+        }
+    }
+    
+    // Fill the DP table
+    for (let i = 1; i <= s.length; i++) {
+        for (let j = 1; j <= p.length; j++) {
+            // Case 1: Characters match exactly OR pattern has '.'
+            if (p[j - 1] === '.' || p[j - 1] === s[i - 1]) {
+                dp[i][j] = dp[i - 1][j - 1];
+            }
+            // Case 2: Pattern has '*'
+            else if (p[j - 1] === '*') {
+                // Two possibilities:
+                
+                // 2a: Zero occurrences of preceding character
+                // Skip the preceding char and '*'
+                dp[i][j] = dp[i][j - 2];
+                
+                // 2b: One or more occurrences of preceding character
+                // Check if preceding char matches current string char
+                const precedingChar = p[j - 2];
+                if (precedingChar === '.' || precedingChar === s[i - 1]) {
+                    dp[i][j] = dp[i][j] || dp[i - 1][j];
+                }
+            }
+            // Case 3: No match
+            else {
+                dp[i][j] = false;
+            }
+        }
+    }
+    
+    return dp[s.length][p.length];
+}
