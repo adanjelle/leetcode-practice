@@ -153,3 +153,25 @@ function maxArea(height) {
     
     return maxWater;
 }
+//
+function longestCommonPrefix(strs) {
+    if (strs.length === 0) return "";
+    
+    // Take the first string as reference
+    const first = strs[0];
+    
+    // Check character by character
+    for (let i = 0; i < first.length; i++) {
+        const char = first[i];
+        
+        // Compare this character across all strings
+        for (let j = 1; j < strs.length; j++) {
+            // If we've reached the end of a string or character doesn't match
+            if (i === strs[j].length || strs[j][i] !== char) {
+                return first.substring(0, i);
+            }
+        }
+    }
+    
+    return first;
+}
