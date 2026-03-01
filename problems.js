@@ -175,3 +175,44 @@ function longestCommonPrefix(strs) {
     
     return first;
 }
+//
+function threeSum(nums) {
+    const result = [];
+    
+    // Sort the array first (crucial for two-pointer technique)
+    nums.sort((a, b) => a - b);
+    
+    for (let i = 0; i < nums.length - 2; i++) {
+        // Skip duplicate values for the first element
+        if (i > 0 && nums[i] === nums[i - 1]) continue;
+        
+        let left = i + 1;
+        let right = nums.length - 1;
+        
+        while (left < right) {
+            const sum = nums[i] + nums[left] + nums[right];
+            
+            if (sum === 0) {
+                // Found a valid triplet
+                result.push([nums[i], nums[left], nums[right]]);
+                
+                // Skip duplicates for the second element
+                while (left < right && nums[left] === nums[left + 1]) left++;
+                // Skip duplicates for the third element
+                while (left < right && nums[right] === nums[right - 1]) right--;
+                
+                // Move both pointers
+                left++;
+                right--;
+            } else if (sum < 0) {
+                // Sum too small, need larger numbers
+                left++;
+            } else {
+                // Sum too large, need smaller numbers
+                right--;
+            }
+        }
+    }
+    
+    return result;
+}
