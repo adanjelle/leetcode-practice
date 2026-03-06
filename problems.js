@@ -216,3 +216,16 @@ function threeSum(nums) {
     
     return result;
 }
+
+//looking for complement
+
+  let twoSum= function( nums, target){
+    const numMap= new Map();
+    for(let i=0 ; i<nums.length; i++){
+        const complement= target-nums[i];
+        if(numMap.has (complement)){
+            return [numMap.get(complement),i]
+        }
+        numMap.set(nums[i],i);
+    }
+  }
