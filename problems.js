@@ -277,3 +277,27 @@ function isMatch(s, p) {
     
     return dp[s.length][p.length];
 }
+function maxArea(height) {
+    let maxWater = 0;
+    let left = 0;
+    let right = height.length - 1;
+    
+    while (left < right) {
+        // Calculate current water amount
+        const width = right - left;
+        const containerHeight = Math.min(height[left], height[right]);
+        const water = width * containerHeight;
+        
+        // Update maximum if current is larger
+        maxWater = Math.max(maxWater, water);
+        
+        // Move the pointer pointing to the shorter line
+        if (height[left] < height[right]) {
+            left++;
+        } else {
+            right--;
+        }
+    }
+    
+    return maxWater;
+}
